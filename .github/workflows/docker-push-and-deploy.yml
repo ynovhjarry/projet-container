@@ -10,11 +10,13 @@ env:
   IMAGE_NAMESPACE: ${{ secrets.DOCKERHUB_USER }}
 
 jobs:
+
   build:
     name: Build & Push Docker Images
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -43,19 +45,22 @@ jobs:
           tags: ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/frontend:latest
 
   deploy:
-    name: Deploy to Cluster
+    name: Deploy to Kubernetes
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v3
-        with:
-          version: '1.27.0' # version stable
-
-      - name: Apply manifests to cluster
+      - name: Install kubectl manually
         run: |
-          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > kubeconfig.yaml
-          kubectl --kubeconfig=kubeconfig.yaml apply -f k8s/
-          rm kubeconfig.yaml
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+          kubectl version --client
+
+      - name: Apply Kubernetes manifests
+        env:
+          KUBECONFIG: ${{ secrets.KUBECONFIG }}
+        run: |
+          kubectl apply -f k8s/
