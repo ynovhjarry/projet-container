@@ -49,19 +49,14 @@ Cette architecture permet de **tester localement** l’ensemble des composants t
 ```mermaid
 flowchart TB
     Client["Utilisateur / Browser"]
-
     Ingress["Ingress Controller - NGINX"]
-
     FE_Service["Service Frontend - ClusterIP 80"]
     FE_Deployment["Deployment Frontend - 2 replicas, probes"]
-
     BE_Service["Service Backend - ClusterIP 3000"]
     BE_Deployment["Deployment Backend - 2 replicas, probes"]
-
     DB_Service["Service PostgreSQL - ClusterIP 5432"]
     DB_Deployment["Deployment PostgreSQL - 1 replica, PVC"]
     DB_PVC["PersistentVolumeClaim"]
-
     ConfigMaps["ConfigMaps"]
     Secrets["Secrets"]
 
@@ -78,3 +73,4 @@ flowchart TB
     BE_Deployment --> ConfigMaps
     BE_Deployment --> Secrets
     DB_Deployment --> Secrets
+'''
