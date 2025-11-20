@@ -1,17 +1,21 @@
-# Projet 3-tiers Kubernetes — Starter
+# Projet Kubernetes 3-tier
 
-Contenu:
-- /app/front : React SPA (liste + création)
-- /app/back  : Express API (CRUD) — se connecte à PostgreSQL via variables d'environnement
-- /k8s       : manifests Kubernetes (Deployments, Services, PVC, Ingress, ConfigMap, Secret templates)
-- /ci        : GitHub Actions pipeline (CI + CD)
-- /docs      : architecture, runbook, security
-- reset-kind.sh : script pour reset Kind (supprime + recrée)
-- Dockerfiles for front & back
+Ce projet déploie une application 3-tier (backend, frontend, Postgres) sur Kubernetes avec Kind.
 
-Instructions rapides:
-1. Installer Kind et Docker.
-2. `./reset-kind.sh` pour créer un cluster named dev-cluster.
-3. Build & push images (voir /ci).
-4. `kubectl apply -f k8s/` pour déployer.
+## Contenu du projet
+
+- `/app/back` → backend Node.js / Express
+- `/app/front` → frontend React
+- `/k8s` → manifests Kubernetes
+- `/ci` → workflow GitHub Actions pour CI/CD
+- `/docs` → documentation du projet
+- `reset-kind.sh` → script pour reset le cluster Kind
+
+## Étapes principales
+
+1. Personnaliser les images Docker avec votre nom Docker Hub.
+2. Build et push des images.
+3. Déploiement sur Kind.
+4. CI/CD via GitHub Actions.
+5. Vérification et tests.
 

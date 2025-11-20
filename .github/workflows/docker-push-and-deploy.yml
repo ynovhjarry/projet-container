@@ -59,8 +59,8 @@ jobs:
           sudo mv kubectl /usr/local/bin/
           kubectl version --client
 
-      - name: Apply Kubernetes manifests
-        env:
-          KUBECONFIG: ${{ secrets.KUBECONFIG }}
+      - name: Apply manifests
         run: |
-          kubectl apply -f k8s/
+        echo "${{ secrets.KUBECONFIG }}" | base64 --decode > kubeconfig.yaml
+        export KUBECONFIG=$(pwd)/kubeconfig.yaml
+        kubectl apply -f k8s/
