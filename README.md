@@ -1,4 +1,4 @@
-# Projet Kubernetes 3-tier
+# Projet Kubernetes de Hugo Jarry
 
 Ce projet déploie une application 3-tier (backend, frontend, Postgres) sur Kubernetes avec Kind.
 
@@ -13,8 +13,8 @@ Ce projet déploie une application 3-tier (backend, frontend, Postgres) sur Kube
 
 ## Étapes principales
 
-1. Personnaliser les images Docker avec votre nom Docker Hub.
-2. Build et push des images.
+1. Personnaliser les images Docker avec DockerHub: hjarry.
+2. Build et push les images.
 3. Déploiement sur Kind.
 4. CI/CD via GitHub Actions.
 5. Vérification et tests.

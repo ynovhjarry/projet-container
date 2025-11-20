@@ -61,6 +61,6 @@ jobs:
 
       - name: Apply manifests
         run: |
-        echo "${{ secrets.KUBECONFIG }}" | base64 --decode > kubeconfig.yaml
-        export KUBECONFIG=$(pwd)/kubeconfig.yaml
-        kubectl apply -f k8s/
+          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > kubeconfig.yaml
+          export KUBECONFIG=$(pwd)/kubeconfig.yaml
+          kubectl apply -f k8s/
