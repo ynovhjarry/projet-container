@@ -1,5 +1,16 @@
-# Security notes
+## Gestion des secrets
 
-- Never commit real passwords. Use GitHub Secrets or sealed-secrets.
-- Images run as default user; for production set non-root users in Dockerfiles.
-- Resource limits defined in manifests to avoid noisy neighbors.
+- Secrets sensibles (DockerHub token, KUBECONFIG) **jamais commités dans le repo**.
+- Utiliser les **secrets GitHub Actions** pour CI/CD.
+- Accès limité aux collaborateurs du dépôt.
+
+## Gestion des utilisateurs
+
+- Contrôler les droits Kubernetes via RBAC.
+- Accès à Docker Hub limité aux comptes autorisés.
+
+## Bonnes pratiques pour les images
+
+- Toujours rebuild les images après mise à jour des dépendances.
+- Scanner les images pour vulnérabilités.
+- Ne jamais inclure de secrets dans l'image finale.

@@ -1,11 +1,24 @@
-# Architecture
+## Architecture Hugo Jarry:
 
-3-tiers:
-- Front (React SPA) -> calls Backend API (ClusterIP service)
-- Backend (Express) -> connects to PostgreSQL (ClusterIP service + PVC)
-- Ingress exposes the front (host dev.local)
+Frontend <--> Backend <--> Base de données (PostgreSQL)
 
-Choices:
-- Kind for local cluster
-- Docker Hub as image registry
-- GitHub Actions for CI/CD
+- Frontend : Application web (React/HTML/JS)
+- Backend : API REST (Node.js + Express)
+- Base de données : PostgreSQL (optionnelle, sinon stockage en mémoire)
+- CI/CD : GitHub Actions + Docker + Kubernetes
+
+## Flux des données
+
+1. L'utilisateur interagit avec le frontend.
+2. Frontend envoie des requêtes à l'API backend.
+3. Backend traite les requêtes et interagit avec la DB si nécessaire.
+4. Les données sont renvoyées au frontend pour affichage.
+
+## Choix techniques
+
+- **Node.js / Express** : simple et rapide pour un backend REST.
+- **PostgreSQL** : persistance des données, optionnelle.
+- **Docker** : conteneurisation pour CI/CD et déploiement.
+- **Kubernetes** : orchestration pour scalabilité et résilience.
+- **GitHub Actions** : CI/CD automatique pour build, push et déploiement.
+- **Supertest + Jest** : tests unitaires backend.
