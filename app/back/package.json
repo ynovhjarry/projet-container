@@ -1,15 +1,31 @@
 {
-  "name": "back",
-  "version": "0.1.0",
-  "private": true,
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend Node.js pour le projet Kubernetes 3-Tier",
+  "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "jest --coverage",
+    "lint": "eslint ."
   },
+  "author": "Ton Nom",
+  "license": "MIT",
   "dependencies": {
-    "express": "4.18.2",
-    "cors": "2.8.5",
-    "pg": "8.11.0",
-    "body-parser": "1.20.2",
-    "uuid": "9.0.0"
+    "express": "^4.18.2",
+    "pg": "^8.11.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "jest": "^29.6.0",
+    "supertest": "^6.3.3",
+    "nodemon": "^3.0.2",
+    "eslint": "^8.48.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": true,
+    "collectCoverage": true,
+    "coverageDirectory": "coverage"
   }
 }

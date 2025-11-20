@@ -4,18 +4,30 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch:
+  release:
+    types: [published]   # déclenche le CD manuel sur tag/release
 
 env:
   DOCKER_REGISTRY: docker.io
   IMAGE_NAMESPACE: ${{ secrets.DOCKERHUB_USER }}
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install backend deps & run tests
+        working-directory: ./app/back
+        run: |
+          npm install
+          npm test
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -34,14 +46,22 @@ jobs:
         with:
           context: ./app/back
           push: true
-          tags: |
-            ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/backend:latest
+          tags: ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/backend:latest
 
       - name: Build & push frontend
         uses: docker/build-push-action@v4
         with:
           context: ./app/front
           push: true
-          tags: |
-            ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/frontend:latest
+          tags: ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/frontend:latest
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'release'
+    steps:
+      - name: Deploy instructions
+        run: |
+          echo "⚠️éploiement manuel requis"
+          echo "Lance ces commandes sur ton cluster local:"
+          echo "kubectl apply -f k8s/"
