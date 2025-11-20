@@ -58,10 +58,13 @@ jobs:
           sudo mv kubectl /usr/local/bin/
           kubectl version --client
 
-      - name: Deploy manifests
+      - name: Update image tags in manifests
+        run: |
+          sed -i "s|backend:latest|backend:${{ github.run_number }}|g" k8s/backend-deployment.yaml
+          sed -i "s|frontend:latest|frontend:${{ github.run_number }}|g" k8s/frontend-deployment.yaml
+
+      - name: Deploy manifests to cluster
         env:
           KUBECONFIG: ${{ secrets.KUBECONFIG }}
         run: |
-          sed -i "s|backend:latest|backend:${{ github.run_number }}|g" k8s/*.yaml
-          sed -i "s|frontend:latest|frontend:${{ github.run_number }}|g" k8s/*.yaml
           kubectl apply -f k8s/
