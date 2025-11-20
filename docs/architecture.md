@@ -73,4 +73,3 @@ flowchart TB
     BE_Deployment --> ConfigMaps
     BE_Deployment --> Secrets
     DB_Deployment --> Secrets
-'''
